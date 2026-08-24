@@ -54,20 +54,20 @@ Themes are available in all resolutions.
 
 ### OG
 
-![OG theme](https://github.com/Spokloo/satisfactory-grub-theme/blob/main/previews/satisfactory-og-theme.png?raw=true "OG theme")
+![OG theme](https://github.com/Spokloo/satisfactory-grub-themes/blob/main/previews/satisfactory-og-theme.png?raw=true "OG theme")
 
 ### Train
 
-![Train theme](https://github.com/Spokloo/satisfactory-grub-theme/blob/main/previews/satisfactory-train-theme.png?raw=true "Train theme")
+![Train theme](https://github.com/Spokloo/satisfactory-grub-themes/blob/main/previews/satisfactory-train-theme.png?raw=true "Train theme")
 
 ### Update 1
 
-![Update 1 theme](https://github.com/Spokloo/satisfactory-grub-theme/blob/main/previews/satisfactory-update1-theme.png?raw=true "Update 1 theme")
+![Update 1 theme](https://github.com/Spokloo/satisfactory-grub-themes/blob/main/previews/satisfactory-update1-theme.png?raw=true "Update 1 theme")
 
 ### Update 3
 
-![Update 3 theme](https://github.com/Spokloo/satisfactory-grub-theme/blob/main/previews/satisfactory-update3-theme.png?raw=true "Update 3 theme")
+![Update 3 theme](https://github.com/Spokloo/satisfactory-grub-themes/blob/main/previews/satisfactory-update3-theme.png?raw=true "Update 3 theme")
 
 ### 1.2
 
-![1.2 theme](https://github.com/Spokloo/satisfactory-grub-theme/blob/main/previews/satisfactory-1.2-theme.png?raw=true "1.2 theme")
+![1.2 theme](https://github.com/Spokloo/satisfactory-grub-themes/blob/main/previews/satisfactory-1.2-theme.png?raw=true "1.2 theme")
