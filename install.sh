@@ -5,6 +5,7 @@ set -euo pipefail
 
 THEMES_LIST=("og" "train" "update1" "update3" "1.2")
 RES_LIST=("1080p" "1440p" "4k")
+ASPECT_RATIO_LIST=("16:9" "16:10" "21:9")
 
 DEFAULT_GRUB_PATH=""
 if [[ -d "/boot/grub" ]]; then
@@ -27,6 +28,7 @@ fi
 
 DEFAULT_THEME="${THEMES_LIST[0]}"
 DEFAULT_RES="${RES_LIST[0]}"
+DEFAULT_RATIO="${ASPECT_RATIO_LIST[0]}"
 
 # Help menu
 print_usage() {
@@ -37,7 +39,7 @@ Options:
     -h                                      Shows this help menu
     -t [og|train|update1|update3|1.2]       Specifies a theme variant                                       (default=$DEFAULT_THEME)
     -r [1080p|1440p|4k]                     Specifies a screen resolution                                   (default=$DEFAULT_RES)
-    -u                                      Selects the ultrawide variant of the selected resolution
+    -a [16:9|16:10|21:9]                    Specifies the aspect ratio for the current resolution           (default=$DEFAULT_RATIO)
     -d                                      Deletes the current installed theme variant
     -p <path>                               Specifies the GRUB themes path for the selected theme           (default=$DEFAULT_GRUB_PATH)
 EOF
@@ -46,14 +48,14 @@ EOF
 # Parse options
 selected_theme="$DEFAULT_THEME"
 selected_res="$DEFAULT_RES"
-is_ultrawide=false
+selected_ratio="$DEFAULT_RATIO"
 delete_theme=false
 install_path="$DEFAULT_GRUB_PATH/satisfactory"
 
 parse_options() {
     OPTIND=1
 
-    while getopts ":ht:r:udp:" opt; do
+    while getopts ":ht:r:a:dp:" opt; do
         case "$opt" in
             h)
                 print_usage
@@ -93,8 +95,22 @@ parse_options() {
                     exit 1
                 fi
                 ;;
-            u)
-                is_ultrawide=true
+            a)
+                # Aspect ratio validation
+                valid_ratio=0
+                for ratio in "${ASPECT_RATIO_LIST[@]}"; do
+                    if [[ "$OPTARG" == "$ratio" ]]; then
+                        valid_ratio=1
+                        break
+                    fi
+                done
+
+                if [ "$valid_ratio" = 1 ]; then
+                    selected_ratio="$OPTARG"
+                else
+                    echo "Invalid aspect ratio. Expected one of those values: ${ASPECT_RATIO_LIST[*]}" >&2
+                    exit 1
+                fi
                 ;;
             d)
                 delete_theme=true
@@ -162,10 +178,19 @@ install_theme() {
     echo "Creating GRUB theme directory at '$install_path'..."
     mkdir -p "$install_path"
 
-    local bg_dir="bg-normal"
-    if [ "$is_ultrawide" = true ]; then
-        bg_dir="bg-ultrawide"
-    fi
+    # Select correct directory based on the selected aspect ratio
+    local bg_dir=""
+    case "$selected_ratio" in
+        16:9)
+            bg_dir="bg-16-9"
+            ;;
+        16:10)
+            bg_dir="bg-16-10"
+            ;;
+        21:9)
+            bg_dir="bg-21-9"
+            ;;
+    esac
 
     # Copy theme files
     echo "Copying theme '$selected_theme' files into '$install_path'..."
@@ -197,13 +222,43 @@ install_theme() {
     local gfxmode=""
     case "$selected_res" in
         1080p)
-            [[ "$is_ultrawide" = true ]] && gfxmode="2560x1080,1920x1080,auto" || gfxmode="1920x1080,auto"
+            case "$selected_ratio" in
+                16:9)
+                    gfxmode="1920x1080,auto"
+                    ;;
+                16:10)
+                    gfxmode="1920x1200,1920x1080,auto"
+                    ;;
+                21:9)
+                    gfxmode="2560x1080,1920x1080,auto"
+                    ;;
+            esac
             ;;
         1440p)
-            [[ "$is_ultrawide" = true ]] && gfxmode="3440x1440,2560x1440,auto" || gfxmode="2560x1440,1920x1080,auto"
+            case "$selected_ratio" in
+                16:9)
+                    gfxmode="2560x1440,1920x1080,auto"
+                    ;;
+                16:10)
+                    gfxmode="2560x1600,2560x1440,auto"
+                    ;;
+                21:9)
+                    gfxmode="3440x1440,2560x1440,auto"
+                    ;;
+            esac
             ;;
         4k)
-            [[ "$is_ultrawide" = true ]] && gfxmode="5120x2160,3840x2160,auto" || gfxmode="3840x2160,2560x1440,auto"
+            case "$selected_ratio" in
+                16:9)
+                    gfxmode="3840x2160,2560x1440,auto"
+                    ;;
+                16:10)
+                    gfxmode="3840x2400,3840x2160,auto"
+                    ;;
+                21:9)
+                    gfxmode="5120x2160,3840x2160,auto"
+                    ;;
+            esac
             ;;
     esac
 
@@ -277,13 +332,43 @@ main() {
     local res_str=""
     case "$selected_res" in
         1080p)
-            [[ "$is_ultrawide" = true ]] && res_str="2560x1080 (ultrawide)" || res_str="1920x1080"
+            case "$selected_ratio" in
+                16:9)
+                    res_str="1920x1080"
+                    ;;
+                16:10)
+                    res_str="1920x1200"
+                    ;;
+                21:9)
+                    res_str="2560x1080"
+                    ;;
+            esac
             ;;
         1440p)
-            [[ "$is_ultrawide" = true ]] && res_str="3440x1440 (ultrawide)" || res_str="2560x1440"
+            case "$selected_ratio" in
+                16:9)
+                    res_str="2560x1440"
+                    ;;
+                16:10)
+                    res_str="2560x1600"
+                    ;;
+                21:9)
+                    res_str="3440x1440"
+                    ;;
+            esac
             ;;
         4k)
-            [[ "$is_ultrawide" = true ]] && res_str="5120x2160 (ultrawide)" || res_str="3840x2160"
+            case "$selected_ratio" in
+                16:9)
+                    res_str="3840x2160"
+                    ;;
+                16:10)
+                    res_str="3840x2400"
+                    ;;
+                21:9)
+                    res_str="5120x2160"
+                    ;;
+            esac
             ;;
     esac
 
@@ -298,6 +383,7 @@ main() {
     else
         echo "Selected theme: $selected_theme"
         echo "Selected resolution: $res_str"
+        echo "Selected aspect ratio: $selected_ratio"
         echo "Action: Installing"
         echo "Target path: $install_path"
         echo "=============================="
