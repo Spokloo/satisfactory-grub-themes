@@ -1,0 +1,69 @@
+# Global properties
+title-text: ""
+desktop-color: "#000000"
+desktop-image: "background.png"
+terminal-font: "Noto Sans Regular 14"
+terminal-box: "terminal_box_*.png"
+terminal-left: "0"
+terminal-top: "0"
+terminal-width: "100%"
+terminal-height: "100%"
+terminal-border: "0"
+
+# Boot menu
++ boot_menu {
+    left = 0
+    top = 12%
+    width = 21%
+    height = 88%-135
+    item_font = "Noto Sans Regular 24"
+    item_color = "#ffffff"
+    selected_item_color = "#ffffff"
+    item_height = 67
+    item_padding = 0
+    item_spacing = 0
+    selected_item_pixmap_style = "select_*.png"
+    icon_width = 0
+    icon_height = 0
+}
+
+# Satisfactory logo
++ image {
+    left = 45
+    top = 45
+    file = "satisfactory-logo.png"
+}
+
+# Countdown
++ image {
+    left = 0
+    top = 100%-135
+    file = "countdown-box.png"
+}
+
++ label {
+    left = 45
+    top = 100%-40
+    align = "center"
+    id = "__timeout__"
+    text = "Drop-pod will land in %d seconds..."
+    color = "#ffffff"
+    font = "Noto Sans Regular 18"
+}
+
+# Tips
++ image {
+    left = 100%-450
+    top = 50%-288
+    file = "tips-box.png"
+}
+
+# Apply vignette effect on background
++ image {
+    left = 0
+    top = 0
+    width = 100%
+    height = 100%
+    file = "vignette.png"
+}
+
