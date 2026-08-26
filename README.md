@@ -43,11 +43,11 @@ sudo ./install.sh -d
 
 ## Supported resolutions
 
-|       | 16:9 (widescren) | 16:10 (widescren) | 21:9 (ultrawide) |
-|-------|------------------|-------------------|------------------|
-| 1080p |         ✅       |         ✅        |         ✅       |
-| 1440p |         ✅       |         ✅        |         ✅       |
-| 4k    |         ✅       |         ✅        |         ✅       |
+|       | 16:9 (widescreen) | 16:10 (widescreen) | 21:9 (ultrawide) |
+|-------|-------------------|--------------------|------------------|
+| 1080p |         ✅       |         ✅         |        ✅       |
+| 1440p |         ✅       |         ✅         |        ✅       |
+| 4k    |         ✅       |         ✅         |        ✅       |
 
 Those are the supported resolutions for all themes. If your device has another resolution from the ones supported, please open an issue or a pull request so that it can be supported.
 
